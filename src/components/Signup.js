@@ -1,33 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Signup.css'; // Create a CSS file for custom styles
+import libLogo from '../components/images/lib logo.png';
+
 
 // Include your Header component here
 function Header() {
   return (
-    <header className="bg-secondary-subtle">
+    <header className="bg-secondary-subtle header-with-background">
       <nav className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <img
-            src={`${process.env.PUBLIC_URL}lms.jpg`}
+            src={libLogo}
             alt="MY LIBRARY"
             width="100px"
             height="100px"
             className="mr-2"
           />
-          <h1 className="mb-0" style={{ color: 'black' }}><b>MY LIBRARY</b></h1>
+          <div className="library-card">
+            <h1 className="mb-0" style={{ color: 'white' }}><b>The LearnUp</b></h1>
+          </div>
         </div>
         <ul className="d-flex align-items-center">
           <li>
-            <Link to="/" className="btn btn-outline-primary">Home</Link>
+            <Link to="/" className="btn btn-danger btn-lg">Home</Link>
           </li>
           <li>
-            <Link to="/MyBooks" className="btn btn-outline-primary">My Books</Link>
+            <Link to="/MyBooks" className="btn btn-danger btn-lg">My Books</Link>
           </li>
           <li>
-            <Link to="/Login" className="btn btn-outline-primary hover-button">Login</Link>
+            <Link to="/Login" className="btn btn-danger btn-lg">Login</Link>
           </li>
-        
+         
         </ul>
       </nav>
     </header>
@@ -55,7 +59,7 @@ const Signup = () => {
       <Header />
 
       {/* Signup Form */}
-      <div className="signup-container  bg-primary-subtle">
+      <div className="signup-container  bg-secondary-subtle">
         <div className="signup-card">
           <form className="row g-3">
             <h2 className="signup-title">Sign Up</h2>

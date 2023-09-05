@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import libLogo from '../components/images/lib logo.png';
+
 
 function Header() {
   return (
-    <header className="bg-secondary-subtle">
-    <nav className="d-flex justify-content-between align-items-center">
-      <div className="d-flex align-items-center">
-        <img
-          src={`${process.env.PUBLIC_URL}lms.jpg`}
-          alt="MY LIBRARY"
-          width="100px"
-          height="100px"
-          className="mr-2"
-        />
-        <h1 className="mb-0" style={{ color: 'black' }}><b>MY LIBRARY</b></h1>
-      </div>
-      <ul className="d-flex align-items-center">
-        <li>
-          <Link to="/" className="btn btn-outline-primary">Home</Link>
-        </li>
-       
-        <li>
-          <Link to="/Login" className="btn btn-outline-primary hover-button">Login</Link>
-        </li>
-        <li>
-          <Link to="/Signup" className="btn btn-outline-primary hover-button">Sign Up</Link>
-        </li>
-      </ul>
-    </nav>
-  </header>
+    <header className="bg-secondary-subtle header-with-background">
+      <nav className="d-flex justify-content-between align-items-center">
+        <div className="d-flex align-items-center">
+          <img
+            src={libLogo}
+            alt="MY LIBRARY"
+            width="100px"
+            height="100px"
+            className="mr-2"
+          />
+          <div className="library-card">
+            <h1 className="mb-0" style={{ color: 'white' }}><b>The LearnUp</b></h1>
+          </div>
+        </div>
+        <ul className="d-flex align-items-center">
+          <li>
+            <Link to="/" className="btn btn-danger btn-lg">Home</Link>
+          </li>
+         
+         
+         
+        </ul>
+      </nav>
+    </header>
   );
 }
 
@@ -47,7 +47,7 @@ function Footer() {
 
 function MyBooks() {
   const [myBooks, setMyBooks] = useState([]);
-
+  const [userCollection, setUserCollection] = useState([]);
   // Use useEffect to fetch user's books from an API or database
   useEffect(() => {
     // Example: Fetch user's books from an API
@@ -57,8 +57,22 @@ function MyBooks() {
       .catch((error) => console.error('Error fetching user books:', error));
   }, []);
 
+ // Use useEffect to retrieve user's collection from localStorage
+ useEffect(() => {
+  const collectionFromStorage = JSON.parse(localStorage.getItem('userCollection')) || [];
+  setUserCollection(collectionFromStorage);
+}, []);
+
+const removeFromCollection = (bookId) => {
+  // Remove the book with the given id from user's collection
+  const updatedCollection = userCollection.filter((book) => book.id !== bookId);
+  setUserCollection(updatedCollection);
+  localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Update localStorage
+};
+
+
   return (
-    <div className="wrapper  bg-primary-subtle">
+    <div className="wrapper  bg-secondary-subtle">
       <Header />
       <main>
         <hr />

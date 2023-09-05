@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import './Header.css';
 
 import mockingbirdImage from '../components/images/mockingbird.png';
 import duneImage from '../components/images/dune.png';
@@ -16,43 +17,38 @@ import greatImage from '../components/images/the great gtasby.png';
 import hunterImage from '../components/images/the hunter games.png';
 import libLogo from '../components/images/lib logo.png';
 
-
 function Header() {
   return (
-    <header className="bg-secondary-subtle">
+    <header className="bg-secondary-subtle header-with-background">
       <nav className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <img
-            src={libLogo} // Use the imported image variable here
+            src={libLogo}
             alt="MY LIBRARY"
             width="100px"
             height="100px"
             className="mr-2"
           />
-          <h1 className="mb-0" style={{ color: 'black' }}><b>MY LIBRARY</b></h1>
+          <div className="library-card">
+            <h1 className="mb-0" style={{ color: 'white' }}><b>The LearnUp</b></h1>
+          </div>
         </div>
         <ul className="d-flex align-items-center">
+         
           <li>
-            <Link to="/" className="btn btn-outline-primary">Home</Link>
+            <Link to="/MyBooks" className="btn btn-danger btn-lg">My Books</Link>
           </li>
           <li>
-            <Link to="/MyBooks" className="btn btn-outline-primary">My Books</Link>
+            <Link to="/Login" className="btn btn-danger btn-lg">Login</Link>
           </li>
           <li>
-            <Link to="/Login" className="btn btn-outline-primary hover-button">Login</Link>
-          </li>
-          <li>
-            <Link to="/Signup" className="btn btn-outline-primary hover-button">Sign Up</Link>
+            <Link to="/Signup" className="btn btn-danger btn-lg">Sign Up</Link>
           </li>
         </ul>
       </nav>
     </header>
   );
 }
-
-
-
-
 
 function Footer() {
   return (
@@ -68,6 +64,7 @@ function Footer() {
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [userCollection, setUserCollection] = useState([]);
   const books = [
     {
       id: 1,
@@ -99,7 +96,7 @@ function Home() {
       description: 'Amidst the decadence of the Roaring Twenties, Jay Gatsby throws extravagant parties in the hope of rekindling a romance with Daisy Buchanan, exploring themes of wealth, love, and the American Dream.',
       image: greatImage,
       link: '/MyBooks',
-      color: 'bg-secondary-subtle',
+      color: 'bg-primary-subtle',
       Author: 'F. Scott Fitzgerald',
       Genre: 'Classic Literature, Jazz Age, Romance, Tragedy, American Dream',
       PublicationDate: '1925'
@@ -136,7 +133,7 @@ function Home() {
       PublicationDate: '1951',
       image:cathcherImage,
       link: '/MyBooks',
-      color: 'bg-secondary-subtle',
+      color: 'bg-primary-subtle',
     },
     {
       id: 7,
@@ -169,7 +166,7 @@ function Home() {
       PublicationDate: '2014',
       image: alllightImage,
       link: '/MyBooks',
-      color: 'bg-secondary-subtle',
+      color: 'bg-primary-subtle',
     },
     {
       id: 10,
@@ -202,14 +199,18 @@ function Home() {
       PublicationDate: '1985',
       image: endersImage,
       link: '/MyBooks',
-      color: 'bg-secondary-subtle',
+      color: 'bg-primary-subtle',
     },
   ];
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
+  const addToCollection = (book) => {
+    const updatedCollection = [...userCollection, book];
+    setUserCollection(updatedCollection);
+    localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Save to localStorage
+  };
   const filteredBooks = books.filter((book) => {
     const lowerSearchQuery = searchQuery.toLowerCase();
     const lowerTitle = book.title.toLowerCase();
@@ -224,7 +225,7 @@ function Home() {
   });
 
   return (
-    <div className="wrapper bg-primary-subtle">
+    <div className="wrapper bg-secondary-subtle">
       <Header />
       <main>
         <hr />

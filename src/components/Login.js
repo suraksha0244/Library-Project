@@ -2,33 +2,31 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import './Login.css'; // You can create a CSS file for custom styles
-
+import libLogo from '../components/images/lib logo.png';
 
 
 function Header() {
   return (
-    <header className="bg-secondary-subtle">
+    <header className="bg-secondary-subtle header-with-background">
       <nav className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <img
-            src={`${process.env.PUBLIC_URL}lms.jpg`}
+            src={libLogo}
             alt="MY LIBRARY"
             width="100px"
             height="100px"
             className="mr-2"
           />
-          <h1 className="mb-0" style={{ color: 'black' }}><b>MY LIBRARY</b></h1>
+          <div className="library-card">
+            <h1 className="mb-0" style={{ color: 'white' }}><b>The LearnUp</b></h1>
+          </div>
         </div>
         <ul className="d-flex align-items-center">
-          <li>
-            <Link to="/" className="btn btn-outline-primary">Home</Link>
-          </li>
-          <li>
-            <Link to="/MyBooks" className="btn btn-outline-primary">My Books</Link>
-          </li>
+        
+         
          
           <li>
-            <Link to="/Signup" className="btn btn-outline-primary hover-button">Sign Up</Link>
+            <Link to="/Signup" className="btn btn-danger btn-lg">Sign Up</Link>
           </li>
         </ul>
       </nav>
