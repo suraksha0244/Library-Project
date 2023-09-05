@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import libLogo from '../components/images/lib logo.png';
-
+import libLogo from "../components/images/lib logo.png";
+import { ToastContainer, toast } from "react-toastify";
 function Header() {
   return (
     <header className="bg-secondary-subtle header-with-background">
@@ -16,12 +16,16 @@ function Header() {
             className="mr-2"
           />
           <div className="library-card">
-            <h1 className="mb-0" style={{ color: 'white' }}><b>The LearnUp</b></h1>
+            <h1 className="mb-0" style={{ color: "white" }}>
+              <b>The LearnUp</b>
+            </h1>
           </div>
         </div>
         <ul className="d-flex align-items-center">
           <li>
-            <Link to="/" className="btn btn-danger btn-lg">Home</Link>
+            <Link to="/" className="btn btn-danger btn-lg">
+              Home
+            </Link>
           </li>
         </ul>
       </nav>
@@ -41,21 +45,14 @@ function Footer() {
   );
 }
 
-function MyBooks() {
-  const [userCollection, setUserCollection] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  // Use useEffect to retrieve user's collection from localStorage
-  useEffect(() => {
-    const collectionFromStorage = JSON.parse(localStorage.getItem('userCollection')) || [];
-    setUserCollection(collectionFromStorage);
-  }, []);
+function MyBooks({ booksCollection, setBooksCollection }) {
+  const [searchQuery, setSearchQuery] = useState("");
 
   const removeFromCollection = (bookId) => {
-    // Remove the book with the given id from user's collection
-    const updatedCollection = userCollection.filter((book) => book.id !== bookId);
-    setUserCollection(updatedCollection);
-    localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Update localStorage
+    setBooksCollection((prevCollection) =>
+      prevCollection.filter((book) => book.id !== bookId)
+    );
+    toast.error("Book removed from collection!");
   };
 
   const handleSearchChange = (e) => {
@@ -63,7 +60,7 @@ function MyBooks() {
   };
 
   // Filter the userCollection based on the search query
-  const filteredCollection = userCollection.filter((book) => {
+  const filteredCollection = booksCollection.filter((book) => {
     const lowerSearchQuery = searchQuery.toLowerCase();
     const lowerTitle = book.title.toLowerCase();
     const lowerAuthor = book.Author.toLowerCase();
@@ -77,50 +74,82 @@ function MyBooks() {
   });
 
   return (
-    <div className="wrapper bg-secondary-subtle">
-      <Header />
-      <main>
-        <hr />
-        <center>
-          <h1>My Books</h1>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="wrapper bg-secondary-subtle">
+        <Header />
+        <main>
           <hr />
-          <h2>My Collection</h2>
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search by title, author, or genre"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="form-control"
-            />
-          </div>
-          <div className="container">
-            <div className="row">
-              {filteredCollection.map((book) => (
-                <div key={book.id} className="col-md-4 mb-4">
-                  <div className="card">
-                    <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
-                    <div className="card-body" style={{ textAlign: 'left !important' }}>
-                      <h5 className="card-title"><b>{book.title}</b></h5>
-                      <p className="card-text text-left">
-                        <strong>Author:</strong> {book.Author}<br />
-                        <strong>Genre:</strong> {book.Genre}<br />
-                        <strong>Publication Date:</strong> {book.PublicationDate}<br />
-                        <strong>Description:</strong> {book.description}
-                      </p>
-                    </div>
-                    <div className="card-footer text-right">
-                      <button className="btn btn-outline-danger" onClick={() => removeFromCollection(book.id)}>Remove</button>
+          <center>
+            <h1>My Books</h1>
+            <hr />
+            <h2>My Collection</h2>
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search by title, author, or genre"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="form-control"
+              />
+            </div>
+            <div className="container">
+              <div className="row">
+                {filteredCollection.map((book) => (
+                  <div key={book.id} className="col-md-4 mb-4">
+                    <div className="card">
+                      <img
+                        src={book.image}
+                        className="card-img-top"
+                        alt={`Book ${book.id}`}
+                      />
+                      <div
+                        className="card-body"
+                        style={{ textAlign: "left !important" }}
+                      >
+                        <h5 className="card-title">
+                          <b>{book.title}</b>
+                        </h5>
+                        <p className="card-text text-left">
+                          <strong>Author:</strong> {book.Author}
+                          <br />
+                          <strong>Genre:</strong> {book.Genre}
+                          <br />
+                          <strong>Publication Date:</strong>{" "}
+                          {book.PublicationDate}
+                          <br />
+                          <strong>Description:</strong> {book.description}
+                        </p>
+                      </div>
+                      <div className="card-footer text-right">
+                        <button
+                          className="btn btn-outline-danger"
+                          onClick={() => removeFromCollection(book.id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </center>
-      </main>
-      <Footer />
-    </div>
+          </center>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 

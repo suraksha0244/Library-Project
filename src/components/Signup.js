@@ -1,6 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Signup.css'; // Create a CSS file for custom styles
+import React, { useState } from 'react'; // Import useState
+import { Link, useNavigate } from 'react-router-dom';
+import './Signup.css';
+import Axios from 'axios';
 import libLogo from '../components/images/lib logo.png';
 
 
@@ -53,15 +54,45 @@ function Footer() {
 }
 
 const Signup = () => {
+  // Step 1: Use state to manage form data
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    dob: '',
+  });
+
+  // Step 2: Create a function to handle form submission
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await Axios.post('/api/user/signup', formData);
+      console.log(response.data);
+
+      // Redirect to MyBooks page on successful signup
+      navigate('/MyBooks');
+    } catch (error) {
+      console.error('Signup failed:', error);
+    }
+  };
+
+  // Step 4: Update form elements with value and onChange handlers
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   return (
     <div>
-      {/* Include the Header component */}
       <Header />
-
-      {/* Signup Form */}
       <div className="signup-container  bg-secondary-subtle">
         <div className="signup-card">
-          <form className="row g-3">
+          <form className="row g-3" onSubmit={handleSignup}>
             <h2 className="signup-title">Sign Up</h2>
             <div className="col-md-6">
               <label htmlFor="name" className="form-label">Name</label>
@@ -71,6 +102,8 @@ const Signup = () => {
                 placeholder="Enter Your Name"
                 name="name"
                 className="form-control"
+                value={formData.name} // Value from state
+                onChange={handleChange} // Update state on change
               />
             </div>
             <div className="col-md-6">
@@ -81,6 +114,8 @@ const Signup = () => {
                 placeholder="Enter Your Email"
                 name="email"
                 className="form-control"
+                value={formData.email} // Value from state
+                onChange={handleChange} // Update state on change
               />
             </div>
             <div className="col-md-6">
@@ -91,6 +126,8 @@ const Signup = () => {
                 placeholder="Enter Your Password"
                 name="password"
                 className="form-control"
+                value={formData.password} // Value from state
+                onChange={handleChange} // Update state on change
               />
             </div>
             <div className="col-md-6">
@@ -100,6 +137,8 @@ const Signup = () => {
                 id="dob"
                 name="dob"
                 className="form-control"
+                value={formData.dob} // Value from state
+                onChange={handleChange} // Update state on change
               />
             </div>
             <div className="col-12">
@@ -108,8 +147,6 @@ const Signup = () => {
           </form>
         </div>
       </div>
-
-      {/* Include the Footer component */}
       <Footer />
     </div>
   );

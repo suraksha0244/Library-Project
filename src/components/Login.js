@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Login.css'; // You can create a CSS file for custom styles
 import libLogo from '../components/images/lib logo.png';
@@ -50,50 +50,68 @@ function Footer() {
 
 
 const Login = () => {
+  // Define the handleLogin function here
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      const response = await Axios.post('/api/user/authenticate', {
+        email: email,
+        password: password,
+      });
+
+      // Handle the response here (e.g., store user data in state or redirect to another page)
+      console.log(response.data);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
   return (
-
     <div>
-    {/* Include the Header component */}
-    <Header />
+      {/* Include the Header component */}
+      <Header />
 
-    {/* Login Form */}
-    <div className="login-container bg-primary-subtle">
-      <div className="login-box">
-        <h2 className="login-title">Library Login</h2>
-        <form>
-          <div className="form-group">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Enter Your Email"
-              name="email"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Enter Your Password"
-              name="password"
-            />
-          </div>
-          <div className="form-check mb-3">
-            <input type="checkbox" className="form-check-input" id="rememberPassword" />
-            <label htmlFor="rememberPassword" className="form-check-label">Remember your Password</label>
-          </div>
-          <div className="d-grid">
-            <button type="submit" className="btn btn-primary btn-login">Login</button>
-          </div>
-        </form>
+      {/* Login Form */}
+      <div className="login-container bg-primary-subtle">
+        <div className="login-box">
+          <h2 className="login-title">Library Login</h2>
+          <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Enter Your Email"
+                name="email"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Enter Your Password"
+                name="password"
+              />
+            </div>
+            <div className="form-check mb-3">
+              <input type="checkbox" className="form-check-input" id="rememberPassword" />
+              <label htmlFor="rememberPassword" className="form-check-label">Remember your Password</label>
+            </div>
+            <div className="d-grid">
+              <button type="submit" className="btn btn-primary btn-login">Login</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
 
-     {/* Include the Footer component */}
-     <Footer />
+      {/* Include the Footer component */}
+      <Footer />
     </div>
   );
 };

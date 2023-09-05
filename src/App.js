@@ -7,12 +7,21 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 
 function App() {
+  const [booksCollection, setBooksCollection] = React.useState([]);
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/MyBooks" element={<MyBooks />} />
+          <Route
+            exact
+            path="/"
+            element={<Home booksCollection={booksCollection} setBooksCollection={setBooksCollection} />}
+          />
+          <Route
+            exact
+            path="/MyBooks"
+            element={<MyBooks booksCollection={booksCollection} setBooksCollection={setBooksCollection} />}
+          />
           <Route exact path="/Signup" element={<Signup />} />
           <Route exact path="/Login" element={<Login />} />
         </Routes>
