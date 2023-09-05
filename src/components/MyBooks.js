@@ -43,6 +43,7 @@ function Footer() {
 
 function MyBooks() {
   const [userCollection, setUserCollection] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Use useEffect to retrieve user's collection from localStorage
   useEffect(() => {
@@ -57,6 +58,24 @@ function MyBooks() {
     localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Update localStorage
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Filter the userCollection based on the search query
+  const filteredCollection = userCollection.filter((book) => {
+    const lowerSearchQuery = searchQuery.toLowerCase();
+    const lowerTitle = book.title.toLowerCase();
+    const lowerAuthor = book.Author.toLowerCase();
+    const lowerGenre = book.Genre.toLowerCase();
+
+    return (
+      lowerTitle.includes(lowerSearchQuery) ||
+      lowerAuthor.includes(lowerSearchQuery) ||
+      lowerGenre.includes(lowerSearchQuery)
+    );
+  });
+
   return (
     <div className="wrapper bg-secondary-subtle">
       <Header />
@@ -66,13 +85,22 @@ function MyBooks() {
           <h1>My Books</h1>
           <hr />
           <h2>My Collection</h2>
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search by title, author, or genre"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="form-control"
+            />
+          </div>
           <div className="container">
             <div className="row">
-              {userCollection.map((book) => (
+              {filteredCollection.map((book) => (
                 <div key={book.id} className="col-md-4 mb-4">
                   <div className="card">
                     <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
-                    <div className="card-body style={{ textAlign: 'left !important' }}"> {/* Use text-left class for left alignment */}
+                    <div className="card-body" style={{ textAlign: 'left !important' }}>
                       <h5 className="card-title"><b>{book.title}</b></h5>
                       <p className="card-text text-left">
                         <strong>Author:</strong> {book.Author}<br />
