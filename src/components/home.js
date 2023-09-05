@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,7 +14,7 @@ import booktImage from '../components/images/the book thief.png';
 import cathcherImage from '../components/images/the catcher rye.png';
 import greatImage from '../components/images/the great gtasby.png';
 import hunterImage from '../components/images/the hunter games.png';
-
+import libLogo from '../components/images/lib logo.png';
 
 
 function Header() {
@@ -24,7 +23,7 @@ function Header() {
       <nav className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <img
-            src={`${process.env.PUBLIC_URL}lms.jpg`}
+            src={libLogo} // Use the imported image variable here
             alt="MY LIBRARY"
             width="100px"
             height="100px"
@@ -244,29 +243,34 @@ function Home() {
             />
           </div>
 
-          <div className="container">
-            <div className="row">
-              {filteredBooks.map((book) => (
-                <div key={book.id} className="col-md-4 mb-4">
-                  <div className={`card ${book.color}`}>
-                    <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
-                    <div className="card-body" style={{ textAlign: 'left' }}>
-                      <h5 className="card-title">{book.title}</h5>
-                      <p className="card-text text-left">
-                        <strong>Author:</strong> {book.Author}<br />
-                        <strong>Genre:</strong> {book.Genre}<br />
-                        <strong>Publication Date:</strong> {book.PublicationDate}<br />
-                        {book.description}
-                      </p>
-                      <div className="card-footer text-right">
-                        <Link to={book.link} className="btn btn-outline-primary">Add to Collection</Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+
+
+<div className="container">
+  <div className="row">
+    {filteredBooks.map((book) => (
+      <div key={book.id} className="col-md-4 mb-4">
+        <div className={`card ${book.color} card-container`}>
+          <div style={{ height: '300px', overflow: 'hidden' }}>
+            <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
+          </div>
+          <div className="card-body" style={{ textAlign: 'left' }}>
+            <h5 className="card-title">{book.title}</h5>
+            <p className="card-text text-left">
+              <strong>Author:</strong> {book.Author}<br />
+              <strong>Genre:</strong> {book.Genre}<br />
+              <strong>Publication Date:</strong> {book.PublicationDate}<br />
+              {book.description}
+            </p>
+            <div className="card-footer text-right">
+              <Link to={book.link} className="btn btn-outline-primary">Add to Collection</Link>
             </div>
           </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
         </center>
       </main>
       <Footer />
