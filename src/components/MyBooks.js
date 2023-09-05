@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import libLogo from '../components/images/lib logo.png';
 
-
 function Header() {
   return (
     <header className="bg-secondary-subtle header-with-background">
@@ -24,9 +23,6 @@ function Header() {
           <li>
             <Link to="/" className="btn btn-danger btn-lg">Home</Link>
           </li>
-         
-         
-         
         </ul>
       </nav>
     </header>
@@ -46,33 +42,23 @@ function Footer() {
 }
 
 function MyBooks() {
-  const [myBooks, setMyBooks] = useState([]);
   const [userCollection, setUserCollection] = useState([]);
-  // Use useEffect to fetch user's books from an API or database
+
+  // Use useEffect to retrieve user's collection from localStorage
   useEffect(() => {
-    // Example: Fetch user's books from an API
-    fetch('API_ENDPOINT_TO_GET_USER_BOOKS')
-      .then((response) => response.json())
-      .then((data) => setMyBooks(data))
-      .catch((error) => console.error('Error fetching user books:', error));
+    const collectionFromStorage = JSON.parse(localStorage.getItem('userCollection')) || [];
+    setUserCollection(collectionFromStorage);
   }, []);
 
- // Use useEffect to retrieve user's collection from localStorage
- useEffect(() => {
-  const collectionFromStorage = JSON.parse(localStorage.getItem('userCollection')) || [];
-  setUserCollection(collectionFromStorage);
-}, []);
-
-const removeFromCollection = (bookId) => {
-  // Remove the book with the given id from user's collection
-  const updatedCollection = userCollection.filter((book) => book.id !== bookId);
-  setUserCollection(updatedCollection);
-  localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Update localStorage
-};
-
+  const removeFromCollection = (bookId) => {
+    // Remove the book with the given id from user's collection
+    const updatedCollection = userCollection.filter((book) => book.id !== bookId);
+    setUserCollection(updatedCollection);
+    localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Update localStorage
+  };
 
   return (
-    <div className="wrapper  bg-secondary-subtle">
+    <div className="wrapper bg-secondary-subtle">
       <Header />
       <main>
         <hr />
@@ -82,13 +68,21 @@ const removeFromCollection = (bookId) => {
           <h2>My Collection</h2>
           <div className="container">
             <div className="row">
-              {myBooks.map((book) => (
+              {userCollection.map((book) => (
                 <div key={book.id} className="col-md-4 mb-4">
                   <div className="card">
                     <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
-                    <div className="card-body">
-                      <h5 className="card-title">{book.title}</h5>
-                      <p className="card-text">{book.description}</p>
+                    <div className="card-body style={{ textAlign: 'left !important' }}"> {/* Use text-left class for left alignment */}
+                      <h5 className="card-title"><b>{book.title}</b></h5>
+                      <p className="card-text text-left">
+                        <strong>Author:</strong> {book.Author}<br />
+                        <strong>Genre:</strong> {book.Genre}<br />
+                        <strong>Publication Date:</strong> {book.PublicationDate}<br />
+                        <strong>Description:</strong> {book.description}
+                      </p>
+                    </div>
+                    <div className="card-footer text-right">
+                      <button className="btn btn-outline-danger" onClick={() => removeFromCollection(book.id)}>Remove</button>
                     </div>
                   </div>
                 </div>

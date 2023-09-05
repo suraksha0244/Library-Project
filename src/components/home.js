@@ -34,7 +34,6 @@ function Header() {
           </div>
         </div>
         <ul className="d-flex align-items-center">
-         
           <li>
             <Link to="/MyBooks" className="btn btn-danger btn-lg">My Books</Link>
           </li>
@@ -67,7 +66,7 @@ function Home() {
   const [userCollection, setUserCollection] = useState([]);
   const books = [
     {
-      id: 1,
+    id: 1,
       title: 'To Kill a Mockingbird',
       description: 'Set in the racially charged American South during the 1930s, this novel follows young Scout Finch as she learns about justice, morality, and empathy while her father defends an innocent Black man accused of raping a white woman.',
      
@@ -199,18 +198,20 @@ function Home() {
       PublicationDate: '1985',
       image: endersImage,
       link: '/MyBooks',
-      color: 'bg-primary-subtle',
+      color: 'bg-primary-subtle'
     },
   ];
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
   const addToCollection = (book) => {
     const updatedCollection = [...userCollection, book];
     setUserCollection(updatedCollection);
-    localStorage.setItem('userCollection', JSON.stringify(updatedCollection)); // Save to localStorage
+    localStorage.setItem('userCollection', JSON.stringify(updatedCollection));
   };
+
   const filteredBooks = books.filter((book) => {
     const lowerSearchQuery = searchQuery.toLowerCase();
     const lowerTitle = book.title.toLowerCase();
@@ -241,37 +242,36 @@ function Home() {
               placeholder="Search by title, author, or genre"
               value={searchQuery}
               onChange={handleSearchChange}
+              className="form-control"
             />
           </div>
 
-
-
-<div className="container">
-  <div className="row">
-    {filteredBooks.map((book) => (
-      <div key={book.id} className="col-md-4 mb-4">
-        <div className={`card ${book.color} card-container`}>
-          <div style={{ height: '300px', overflow: 'hidden' }}>
-            <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
-          </div>
-          <div className="card-body" style={{ textAlign: 'left' }}>
-            <h5 className="card-title">{book.title}</h5>
-            <p className="card-text text-left">
-              <strong>Author:</strong> {book.Author}<br />
-              <strong>Genre:</strong> {book.Genre}<br />
-              <strong>Publication Date:</strong> {book.PublicationDate}<br />
-              {book.description}
-            </p>
-            <div className="card-footer text-right">
-              <Link to={book.link} className="btn btn-outline-primary">Add to Collection</Link>
+          <div className="container">
+            <div className="row">
+              {filteredBooks.map((book) => (
+                <div key={book.id} className="col-md-4 mb-4">
+                  <div className={`card ${book.color} card-container`}>
+                    <div style={{ height: '300px', overflow: 'hidden' }}>
+                      <img src={book.image} className="card-img-top" alt={`Book ${book.id}`} />
+                    </div>
+                    <div className="card-body" style={{ textAlign: 'left' }}>
+                      <h5 className="card-title">{book.title}</h5>
+                      <p className="card-text text-left">
+                        <strong>Author:</strong> {book.Author}<br />
+                        <strong>Genre:</strong> {book.Genre}<br />
+                        <strong>Publication Date:</strong> {book.PublicationDate}<br />
+                        {book.description}
+                      </p>
+                      <div className="card-footer text-right">
+                        <button className="btn btn-outline-primary"
+                          onClick={() => addToCollection(book)}>Add to Collection</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
         </center>
       </main>
       <Footer />
