@@ -1,0 +1,22 @@
+/* Styling for the header with background image */
+.header-with-background {
+    background-image: url('/src/components/images/bg.png'); 
+    background-size: contain; 
+  }
+  
+  /* Styling for the library name and image container */
+  .library-card {
+    background-color: rgb(236, 69, 69); 
+    padding: 20px; 
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+  }
+  
+  /* Styling for the library name inside the container */
+  .library-card h1 {
+    color: black; 
+    margin: 0; 
+  }
+  
+ 
