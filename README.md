@@ -136,13 +136,13 @@ This approach guarantees a **modern, resilient, and engaging experience** for bo
 
 ## 📽️ Demo Video
 
-🎥 [Click here to watch the project demo](https://drive.google.com/file/d/1ugOHzbIH6faRnB-N0TNWeuVGBIwK1ZUg/view?usp=drive_link)
+🎥 [Click here to watch the project demo](https://drive.google.com/file/d/1EVBK-k8YLkMaYwHBE0JHsaeTodM-3Uc8/view)
 
 ---
 
 ## 📌 Author
 
-**Suraksha S Salian**
+**Suraksha S Salian**, **Soujanya P Sharma**
 
 ---
 
